@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64-codec</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="index.js"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen font-sans text-gray-800">
+
+    <header class="bg-gray-900 text-white py-8 px-6 shadow-lg">
+        <h1 class="text-4xl font-bold tracking-tight">Base64 Codec</h1>
+        <p class="mt-1 text-sm text-gray-400">Encode and decode text or files using Base64</p>
+    </header>
+
+    <main class="mx-auto max-w-7xl p-6">
+
+        <div class="mb-4 hidden grid-cols-2 gap-6 md:grid">
+            <span class="text-xs font-semibold uppercase tracking-widest text-blue-500">Encode</span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-green-500">Decode</span>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+            <section
+                class="flex flex-col gap-3 rounded-xl border border-gray-200 border-l-4 border-l-blue-400 bg-white p-5 shadow-sm">
+                <h2 class="font-semibold text-gray-700">Encode Text</h2>
+                <form id="formEncodeText" class="flex flex-col gap-3">
+                    <div class="flex items-center justify-between">
+                        <label for="encodeText" class="text-sm text-gray-500">Input</label>
+                        <button type="button" data-copy-target="encodeText"
+                            class="rounded px-2 py-0.5 text-xs text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600">Copy</button>
+                    </div>
+                    <textarea id="encodeText" name="encodeText" required
+                        class="h-32 resize-none overflow-y-auto rounded-lg border border-gray-300 p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+                    <button type="submit"
+                        class="self-end rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-600">Encode</button>
+                </form>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-500">Output</span>
+                    <button type="button" data-copy-target="outputEncodeText"
+                        class="rounded px-2 py-0.5 text-xs text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600">Copy</button>
+                </div>
+                <div id="outputEncodeText"
+                    class="h-28 overflow-y-auto break-all whitespace-pre-wrap rounded-lg border border-gray-200 bg-gray-50 p-3 font-mono text-sm text-gray-700">
+                </div>
+            </section>
+
+            <section
+                class="flex flex-col gap-3 rounded-xl border border-gray-200 border-l-4 border-l-green-400 bg-white p-5 shadow-sm">
+                <h2 class="font-semibold text-gray-700">Decode Text</h2>
+                <form id="formDecodeText" class="flex flex-col gap-3">
+                    <div class="flex items-center justify-between">
+                        <label for="decodeText" class="text-sm text-gray-500">Input</label>
+                        <button type="button" data-copy-target="decodeText"
+                            class="rounded px-2 py-0.5 text-xs text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600">Copy</button>
+                    </div>
+                    <textarea id="decodeText" name="decodeText" required
+                        class="h-32 resize-none overflow-y-auto rounded-lg border border-gray-300 p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-green-400"></textarea>
+                    <button type="submit"
+                        class="self-end rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-600">Decode</button>
+                </form>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-500">Output</span>
+                    <button type="button" data-copy-target="outputDecodeText"
+                        class="rounded px-2 py-0.5 text-xs text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600">Copy</button>
+                </div>
+                <div id="outputDecodeText"
+                    class="h-28 overflow-y-auto break-all whitespace-pre-wrap rounded-lg border border-gray-200 bg-gray-50 p-3 font-mono text-sm text-gray-700">
+                </div>
+            </section>
+
+            <section
+                class="flex flex-col gap-3 rounded-xl border border-gray-200 border-l-4 border-l-blue-400 bg-white p-5 shadow-sm">
+                <h2 class="font-semibold text-gray-700">
+                    Encode File
+                    <span class="ml-1 text-xs font-normal text-gray-400">(Buffered)</span>
+                </h2>
+                <p class="text-xs text-gray-400">Max 2 MB</p>
+                <form id="formEncodeBuffered" class="flex flex-col gap-3">
+                    <label for="encodeBufferedFile" class="text-sm text-gray-500">Input</label>
+                    <input type="file" id="encodeBufferedFile" name="file" required
+                        class="cursor-pointer text-sm text-gray-600 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-blue-600 hover:file:bg-blue-100">
+                    <button type="submit"
+                        class="self-end rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-600">Encode</button>
+                </form>
+                <span class="text-sm text-gray-500">Output</span>
+                <a id="outputEncodeBuffered" hidden class="text-sm text-blue-600 underline hover:text-blue-800"></a>
+            </section>
+
+            <section
+                class="flex flex-col gap-3 rounded-xl border border-gray-200 border-l-4 border-l-green-400 bg-white p-5 shadow-sm">
+                <h2 class="font-semibold text-gray-700">
+                    Decode File
+                    <span class="ml-1 text-xs font-normal text-gray-400">(Buffered)</span>
+                </h2>
+                <p class="text-xs text-gray-400">Max 2 MB</p>
+                <form id="formDecodeBuffered" class="flex flex-col gap-3">
+                    <label for="decodeBufferedFile" class="text-sm text-gray-500">Input</label>
+                    <input type="file" id="decodeBufferedFile" name="file" accept=".txt,text/plain" required
+                        class="cursor-pointer text-sm text-gray-600 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-green-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-green-600 hover:file:bg-green-100">
+                    <button type="submit"
+                        class="self-end rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-600">Decode</button>
+                </form>
+                <span class="text-sm text-gray-500">Output</span>
+                <a id="outputDecodeBuffered" hidden class="text-sm text-green-600 underline hover:text-green-800"></a>
+            </section>
+
+            <section
+                class="flex flex-col gap-3 rounded-xl border border-gray-200 border-l-4 border-l-blue-400 bg-white p-5 shadow-sm">
+                <h2 class="font-semibold text-gray-700">
+                    Encode File
+                    <span class="ml-1 text-xs font-normal text-gray-400">(Streamed)</span>
+                </h2>
+                <p class="text-xs text-gray-400">Max 50 MB</p>
+                <form id="formEncodeStreamed" class="flex flex-col gap-3">
+                    <label for="encodeStreamedFile" class="text-sm text-gray-500">Input</label>
+                    <input type="file" id="encodeStreamedFile" name="file" required
+                        class="cursor-pointer text-sm text-gray-600 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-blue-600 hover:file:bg-blue-100">
+                    <button type="submit"
+                        class="self-end rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-600">Encode</button>
+                </form>
+                <span class="text-sm text-gray-500">Output</span>
+                <a id="outputEncodeStreamed" hidden class="text-sm text-blue-600 underline hover:text-blue-800"></a>
+            </section>
+
+            <section
+                class="flex flex-col gap-3 rounded-xl border border-gray-200 border-l-4 border-l-green-400 bg-white p-5 shadow-sm">
+                <h2 class="font-semibold text-gray-700">
+                    Decode File
+                    <span class="ml-1 text-xs font-normal text-gray-400">(Streamed)</span>
+                </h2>
+                <p class="text-xs text-gray-400">Max 50 MB</p>
+                <form id="formDecodeStreamed" class="flex flex-col gap-3">
+                    <label for="decodeStreamedFile" class="text-sm text-gray-500">Input</label>
+                    <input type="file" id="decodeStreamedFile" name="file" accept=".txt,text/plain" required
+                        class="cursor-pointer text-sm text-gray-600 file:mr-3 file:cursor-pointer file:rounded-lg file:border-0 file:bg-green-50 file:px-4 file:py-2 file:text-sm file:font-medium file:text-green-600 hover:file:bg-green-100">
+                    <button type="submit"
+                        class="self-end rounded-lg bg-green-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-green-600">Decode</button>
+                </form>
+                <span class="text-sm text-gray-500">Output</span>
+                <a id="outputDecodeStreamed" hidden class="text-sm text-green-600 underline hover:text-green-800"></a>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="py-6 text-center text-xs text-gray-400">
+        Base64 Codec
+    </footer>
+
+    <dialog id="errorDialog" class="rounded-xl border border-red-200 p-0 shadow-xl backdrop:bg-black/40">
+        <div class="p-5">
+            <h3 class="mb-3 font-semibold text-red-600">Request Error</h3>
+            <p id="errorDialogStatus" class="font-mono text-sm text-gray-500"></p>
+            <p id="errorDialogBody" class="mt-1 text-sm text-gray-700"></p>
+        </div>
+        <div class="border-t border-gray-100 p-3 text-right">
+            <form method="dialog">
+                <button class="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200">Close</button>
+            </form>
+        </div>
+    </dialog>
+
+</body>
+
+</html>
