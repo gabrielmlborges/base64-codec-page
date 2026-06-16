@@ -17,7 +17,7 @@ const streamedDecodeFile = document.getElementById("decodeStreamedFile");
 const errorDialog = document.getElementById("errorDialog");
 const errorDialogStatus = document.getElementById("errorDialogStatus");
 const errorDialogBody = document.getElementById("errorDialogBody");
-const API_URL = "https://base64codecapi.onrender.com";
+const API_URL = "https://base64-codec.onrender.com";
 
 function showError(error) {
   errorDialogStatus.textContent = `Status: ${error.status ?? "—"}`;
